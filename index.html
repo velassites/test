@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intranet - Velas Resorts</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .welcome-banner {
+            background: linear-gradient(90deg, #00A9E0 0%, #00C3BA 100%);
+        }
+        .icon-link {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .icon-link:hover {
+            transform: translateY(-5px);
+            color: #00A9E0;
+        }
+        .icon-circle {
+            background-color: #eef5f8;
+            transition: background-color 0.2s ease;
+        }
+        .icon-link:hover .icon-circle {
+            background-color: #e0f5fc;
+        }
+        .widget-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        .widget-title {
+            font-weight: 700;
+            color: #334155;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .ai-assistant-section {
+            background: linear-gradient(90deg, #00A9E0 0%, #00C3BA 100%);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <!-- Contenedor Principal -->
+    <div class="w-full">
+
+        <!-- Banner de Bienvenida -->
+        <header class="welcome-banner text-white p-8 md:p-12 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold">Bienvenido, Colaborador</h1>
+            <p class="mt-2 text-lg">¿Qué necesitas consultar hoy?</p>
+        </header>
+
+        <!-- Barra de Iconos de Acceso Rápido -->
+        <section class="bg-white py-6 shadow-md">
+            <div class="container mx-auto">
+                <div class="flex justify-around flex-wrap gap-4">
+                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
+                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-file-shield fa-2x"></i>
+                        </div>
+                        <span>Políticas</span>
+                    </a>
+                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
+                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-book-open fa-2x"></i>
+                        </div>
+                        <span>Manuales</span>
+                    </a>
+                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
+                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <span>RR.HH.</span>
+                    </a>
+                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
+                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hard-hat fa-2x"></i>
+                        </div>
+                        <span>Seguridad</span>
+                    </a>
+                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
+                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-search fa-2x"></i>
+                        </div>
+                        <span>Buscar</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenido del Dashboard -->
+        <main class="container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Columna Izquierda -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Widget de Recursos Destacados -->
+                <div class="widget-card">
+                    <h2 class="widget-title bg-yellow-200 text-yellow-800">Recursos Destacados</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="resource-card flex flex-col group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800&auto=format&fit=crop" alt="[Imagen de una cama de hotel]" class="rounded-lg h-40 object-cover mb-2">
+                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Estándar de Tendido de Cama</h3>
+                            <p class="text-sm text-slate-500">Procedimientos</p>
+                        </div>
+                        <div class="resource-card flex flex-col group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1591085686350-798c0f9faa7a?q=80&w=800&auto=format&fit=crop" alt="[Imagen de ropa elegante]" class="rounded-lg h-40 object-cover mb-2">
+                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Código de Vestimenta</h3>
+                             <p class="text-sm text-slate-500">Políticas</p>
+                        </div>
+                        <div class="resource-card flex flex-col group cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbb563?q=80&w=800&auto=format&fit=crop" alt="[Imagen de la recepción de un hotel]" class="rounded-lg h-40 object-cover mb-2">
+                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Protocolo de Bienvenida</h3>
+                             <p class="text-sm text-slate-500">Manuales</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widgets de Políticas y Manuales -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="widget-card">
+                        <h2 class="widget-title bg-blue-200 text-blue-800">Políticas Clave</h2>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Protección de Datos</a></li>
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Seguridad Física</a></li>
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Igualdad de Oportunidades</a></li>
+                        </ul>
+                    </div>
+                     <div class="widget-card">
+                        <h2 class="widget-title bg-green-200 text-green-800">Manuales Esenciales</h2>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Manual de Operación de Recepción</a></li>
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Manual de Conducta</a></li>
+                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Protocolos de Emergencia</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha -->
+            <div class="lg:col-span-1 space-y-8">
+                <div class="widget-card">
+                    <h2 class="widget-title bg-purple-200 text-purple-800">Documentos Recientes</h2>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3 p-2">
+                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
+                            <div>
+                                <a href="#" class="font-medium hover:underline">Código de Vestimenta</a>
+                                <p class="text-sm text-slate-500">Consultado hace 2 horas</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start gap-3 p-2">
+                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
+                            <div>
+                                <a href="#" class="font-medium hover:underline">Protección de Datos</a>
+                                <p class="text-sm text-slate-500">Consultado ayer</p>
+                            </div>
+                        </li>
+                         <li class="flex items-start gap-3 p-2">
+                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
+                            <div>
+                                <a href="#" class="font-medium hover:underline">Manual de Conducta</a>
+                                <p class="text-sm text-slate-500">Consultado el 28/07/2025</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Asistente de IA -->
+        <section class="ai-assistant-section mt-12 py-16">
+             <div class="container mx-auto px-4 text-center text-white">
+                <h2 class="text-3xl md:text-4xl font-extrabold">✨ Asistente Inteligente de Políticas</h2>
+                <p class="mt-2 text-lg max-w-2xl mx-auto">Describe tu consulta y nuestro asistente te sugerirá la información relevante.</p>
+
+                <div class="max-w-3xl mx-auto mt-8 bg-white/20 p-4 rounded-xl border border-white/30">
+                    <div class="bg-white rounded-lg p-2">
+                        <textarea class="w-full h-24 p-4 text-slate-800 border-none rounded-md focus:ring-2 focus:ring-[#00A9E0]" placeholder="Ej: ¿Cuáles son las reglas para el trabajo remoto y qué equipo se proporciona?"></textarea>
+                        <button class="mt-2 w-full bg-slate-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-900 transition-all text-lg">
+                            Analizar y Sugerir <i class="fas fa-search ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-6 text-sm text-slate-500">
+            <p>&copy; 2025 Velas Resorts. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
