@@ -3,209 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intranet - Velas Resorts</title>
+    <title>Baby Concierge - Catálogo Interactivo de Lujo</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Chosen Palette: Calm Neutrals -->
+    <!-- Application Structure Plan: The application uses an interactive, filterable grid layout instead of a static list. A top navigation bar allows users to filter products by functional categories (Rest, Outings, Mealtime, etc.). This structure is more engaging and allows users to quickly find specific items, improving usability over a simple scrollable list. The flow is: Land -> Filter (optional) -> Explore. -->
+    <!-- Visualization & Content Choices: Report Info: Product List -> Goal: Organize/Showcase -> Viz/Method: Interactive Card Grid (HTML/Tailwind) -> Interaction: Category Filtering (JS) -> Justification: Provides a modern, app-like experience that is superior to a static document for user exploration. Report Info: Product Details -> Goal: Inform -> Viz/Method: Styled Cards -> Interaction: Hover Effects -> Justification: Enhances visual feedback and polish. All graphics are placeholders simulating photos. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f4f7f9;
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
         }
-        .welcome-banner {
-            background: linear-gradient(90deg, #00A9E0 0%, #00C3BA 100%);
+        .font-serif {
+            font-family: 'Playfair Display', serif;
         }
-        .icon-link {
-            transition: transform 0.2s ease, color 0.2s ease;
-        }
-        .icon-link:hover {
-            transform: translateY(-5px);
-            color: #00A9E0;
-        }
-        .icon-circle {
-            background-color: #eef5f8;
-            transition: background-color 0.2s ease;
-        }
-        .icon-link:hover .icon-circle {
-            background-color: #e0f5fc;
-        }
-        .widget-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 1.5rem;
-        }
-        .widget-title {
-            font-weight: 700;
-            color: #334155;
-            border-radius: 0.5rem;
-            padding: 0.5rem 1rem;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        .ai-assistant-section {
-            background: linear-gradient(90deg, #00A9E0 0%, #00C3BA 100%);
+        .active-filter {
+            background-color: #A67B5B !important;
+            color: #FFFFFF !important;
         }
     </style>
 </head>
-<body class="text-slate-700">
+<body class="text-gray-800 antialiased">
 
-    <!-- Contenedor Principal -->
-    <div class="w-full">
+    <!-- Header Section -->
+    <header class="text-center py-16 px-4 bg-cover bg-center" style="background-color: #F5EFEA;">
+        <h1 class="font-serif text-5xl md:text-6xl font-bold text-[#3D352E] mb-4">Baby Concierge</h1>
+        <p class="text-lg md:text-xl text-[#6B5F55] max-w-3xl mx-auto">Viaja sin preocupaciones. Hemos preparado cada detalle con las mejores marcas para el confort y la felicidad de tus hijos.</p>
+    </header>
 
-        <!-- Banner de Bienvenida -->
-        <header class="welcome-banner text-white p-8 md:p-12 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold">Bienvenido, Colaborador</h1>
-            <p class="mt-2 text-lg">¿Qué necesitas consultar hoy?</p>
-        </header>
-
-        <!-- Barra de Iconos de Acceso Rápido -->
-        <section class="bg-white py-6 shadow-md">
-            <div class="container mx-auto">
-                <div class="flex justify-around flex-wrap gap-4">
-                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
-                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-file-shield fa-2x"></i>
-                        </div>
-                        <span>Políticas</span>
-                    </a>
-                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
-                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-book-open fa-2x"></i>
-                        </div>
-                        <span>Manuales</span>
-                    </a>
-                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
-                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-users fa-2x"></i>
-                        </div>
-                        <span>RR.HH.</span>
-                    </a>
-                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
-                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-hard-hat fa-2x"></i>
-                        </div>
-                        <span>Seguridad</span>
-                    </a>
-                    <a href="#" class="icon-link flex flex-col items-center gap-2 text-slate-600 font-semibold">
-                        <div class="icon-circle w-20 h-20 rounded-full flex items-center justify-center">
-                            <i class="fas fa-search fa-2x"></i>
-                        </div>
-                        <span>Buscar</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contenido del Dashboard -->
-        <main class="container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            <!-- Columna Izquierda -->
-            <div class="lg:col-span-2 space-y-8">
-                <!-- Widget de Recursos Destacados -->
-                <div class="widget-card">
-                    <h2 class="widget-title bg-yellow-200 text-yellow-800">Recursos Destacados</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card flex flex-col group cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800&auto=format&fit=crop" alt="[Imagen de una cama de hotel]" class="rounded-lg h-40 object-cover mb-2">
-                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Estándar de Tendido de Cama</h3>
-                            <p class="text-sm text-slate-500">Procedimientos</p>
-                        </div>
-                        <div class="resource-card flex flex-col group cursor-pointer">
-                            <img src="https://multimedia.velasresorts.com/i.php?/000/971/SERVICE-Grand-Velas-Los-Cabos-Velas-Resorts-001,huge.1728923450.jpg" alt="[Imagen de ropa elegante]" class="rounded-lg h-40 object-cover mb-2">
-                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Código de Vestimenta</h3>
-                             <p class="text-sm text-slate-500">Políticas</p>
-                        </div>
-                        <div class="resource-card flex flex-col group cursor-pointer">
-                            <img src="https://multimedia.velasresorts.com/i.php?/000/965/SERVICE-Grand-Velas-Los-Cabos-Velas-Resorts-17,xlarge.1728923450.jpg" alt="[Imagen de la recepción de un hotel]" class="rounded-lg h-40 object-cover mb-2">
-                            <h3 class="font-bold text-slate-800 group-hover:text-[#00A9E0] transition">Protocolo de Bienvenida</h3>
-                             <p class="text-sm text-slate-500">Manuales</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Widgets de Políticas y Manuales -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="widget-card">
-                        <h2 class="widget-title bg-blue-200 text-blue-800">Políticas Clave</h2>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Protección de Datos</a></li>
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Seguridad Física</a></li>
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-file-contract text-slate-400"></i><a href="#" class="font-medium">Igualdad de Oportunidades</a></li>
-                        </ul>
-                    </div>
-                     <div class="widget-card">
-                        <h2 class="widget-title bg-green-200 text-green-800">Manuales Esenciales</h2>
-                        <ul class="space-y-3">
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Manual de Operación de Recepción</a></li>
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Manual de Conducta</a></li>
-                            <li class="flex items-center gap-3 hover:bg-slate-50 p-2 rounded-md cursor-pointer"><i class="fas fa-book text-slate-400"></i><a href="#" class="font-medium">Protocolos de Emergencia</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Columna Derecha -->
-            <div class="lg:col-span-1 space-y-8">
-                <div class="widget-card">
-                    <h2 class="widget-title bg-purple-200 text-purple-800">Documentos Recientes</h2>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3 p-2">
-                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
-                            <div>
-                                <a href="#" class="font-medium hover:underline">Código de Vestimenta</a>
-                                <p class="text-sm text-slate-500">Consultado hace 2 horas</p>
-                            </div>
-                        </li>
-                         <li class="flex items-start gap-3 p-2">
-                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
-                            <div>
-                                <a href="#" class="font-medium hover:underline">Protección de Datos</a>
-                                <p class="text-sm text-slate-500">Consultado ayer</p>
-                            </div>
-                        </li>
-                         <li class="flex items-start gap-3 p-2">
-                            <i class="fas fa-file-alt text-slate-400 mt-1"></i>
-                            <div>
-                                <a href="#" class="font-medium hover:underline">Manual de Conducta</a>
-                                <p class="text-sm text-slate-500">Consultado el 28/07/2025</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </main>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        <!-- Asistente de IA -->
-        <section class="ai-assistant-section mt-12 py-16">
-             <div class="container mx-auto px-4 text-center text-white">
-                <h2 class="text-3xl md:text-4xl font-extrabold">✨ Asistente Inteligente de Políticas</h2>
-                <p class="mt-2 text-lg max-w-2xl mx-auto">Describe tu consulta y nuestro asistente te sugerirá la información relevante.</p>
+        <!-- Filter Navigation -->
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12" id="filter-nav">
+            <button class="filter-btn active-filter px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="all">Todos</button>
+            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="descanso">Para el Descanso</button>
+            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="paseo">Para el Paseo</button>
+            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="comida">Para la Comida</button>
+            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="juego">Para Jugar</button>
+        </nav>
 
-                <div class="max-w-3xl mx-auto mt-8 bg-white/20 p-4 rounded-xl border border-white/30">
-                    <div class="bg-white rounded-lg p-2">
-                        <textarea class="w-full h-24 p-4 text-slate-800 border-none rounded-md focus:ring-2 focus:ring-[#00A9E0]" placeholder="Ej: ¿Cuáles son las reglas para el trabajo remoto y qué equipo se proporciona?"></textarea>
-                        <button class="mt-2 w-full bg-slate-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-900 transition-all text-lg">
-                            Analizar y Sugerir <i class="fas fa-search ml-2"></i>
-                        </button>
-                    </div>
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            
+            <!-- Card de producto: Cuna -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="descanso">
+                <img src="https://babysandkids.com.mx/cdn/shop/files/416ef160-f6b6-41bc-affe-782f35ce41f1.jpg?v=1718823200&width=1646" alt="Cuna de viaje Stokke" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Cuna de viaje Stokke Sleepi Mini</h3>
+                    <p class="text-[#6B5F55]">Un espacio de descanso seguro y elegante, con un diseño escandinavo y materiales de alta calidad.</p>
                 </div>
             </div>
-        </section>
 
-        <footer class="text-center py-6 text-sm text-slate-500">
-            <p>&copy; 2025 Velas Resorts. Todos los derechos reservados.</p>
-        </footer>
-    </div>
+            <!-- Card de producto: Portabebés -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
+                <img src="https://ergobaby.es/media/catalog/product/b/a/baby_carrier_360_cam_carbon_grey__1_2.jpg?width=700&height=700&store=es_es&image-type=image" alt="Portabebés Ergobaby" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Portabebés Ergobaby Omni 360</h3>
+                    <p class="text-[#6B5F55]">Diseñado para la máxima comodidad y soporte ergonómico, tanto para los padres como para el bebé.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Coche de paseo -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
+                <img src="https://m.media-amazon.com/images/I/71ktx7eJiWL._AC_SX679_.jpg" alt="Coche de paseo Bugaboo" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Coche de paseo Bugaboo Fox 5</h3>
+                    <p class="text-[#6B5F55]">Un cochecito versátil y de alta gama, ideal para cualquier tipo de terreno, desde la playa hasta el lobby del hotel.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Pañalera -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
+                <img src="https://placehold.co/600x400/BCA08A/3D352E?text=Pañalera+de+Lujo" alt="Pañalera Fendi" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Pañalera equipada de lujo</h3>
+                    <p class="text-[#6B5F55]">Preparada con pañales, toallitas y otros esenciales de tu marca preferida, para que no cargues nada extra.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Silla alta -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
+                <img src="https://bebemoon.mx/cdn/shop/products/Disenosintitulo_14_1100x.png?v=1660254582" alt="Silla alta Stokke Tripp Trapp" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Silla alta Stokke Tripp Trapp</h3>
+                    <p class="text-[#6B5F55]">La silla que crece con tu hijo, con un diseño atemporal que combina seguridad y funcionalidad.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Vajilla -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
+                <img src="https://placehold.co/600x400/A67B5B/FFFFFF?text=Vajilla+Tiffany" alt="Vajilla Tiny Tiffany & Co." class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Vajilla Tiny Tiffany & Co.</h3>
+                    <p class="text-[#6B5F55]">Para una experiencia gastronómica especial, con un set de platos y cubiertos de lujo.</p>
+                </div>
+            </div>
+            
+            <!-- Card de producto: Menú -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
+                <img src="https://placehold.co/600x400/9F704D/FFFFFF?text=Menú+Gourmet" alt="Menú gourmet infantil" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Menú gourmet infantil</h3>
+                    <p class="text-[#6B5F55]">Opciones deliciosas y nutritivas, preparadas con ingredientes orgánicos y de la más alta calidad.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Juegos didácticos -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="juego">
+                <img src="https://m.media-amazon.com/images/I/71v+aVqTF6L.jpg" alt="Juegos didácticos Hape" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Juegos didácticos Hape</h3>
+                    <p class="text-[#6B5F55]">Juguetes de madera y sets de arte en la habitación para que los niños se diviertan y aprendan.</p>
+                </div>
+            </div>
+
+            <!-- Card de producto: Toalla -->
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="juego">
+                <img src="https://http2.mlstatic.com/D_NQ_NP_831832-MCO84769263943_052025-O.webp" alt="Toalla de baño personalizada" class="w-full h-56 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Toalla de baño personalizada</h3>
+                    <p class="text-[#6B5F55]">Una toalla de alta calidad con el personaje o superhéroe favorito de tu hijo para el baño o la playa.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#F5EFEA] mt-16">
+        <div class="container mx-auto px-8 py-8 text-center text-[#6B5F55]">
+            <p class="font-serif text-2xl text-[#3D352E] mb-2">Su tranquilidad es nuestro mayor lujo.</p>
+            <p>&copy; 2025 The Grand Lux Hotel & Baby Concierge Service. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active-filter'));
+                    this.classList.add('active-filter');
+
+                    const category = this.getAttribute('data-category');
+
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
