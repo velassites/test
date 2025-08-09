@@ -3,170 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Concierge - Catálogo Interactivo de Lujo</title>
-    
-    <!-- Chosen Palette: Calm Neutrals -->
-    <!-- Application Structure Plan: The application uses an interactive, filterable grid layout instead of a static list. A top navigation bar allows users to filter products by functional categories (Rest, Outings, Mealtime, etc.). This structure is more engaging and allows users to quickly find specific items, improving usability over a simple scrollable list. The flow is: Land -> Filter (optional) -> Explore. -->
-    <!-- Visualization & Content Choices: Report Info: Product List -> Goal: Organize/Showcase -> Viz/Method: Interactive Card Grid (HTML/Tailwind) -> Interaction: Category Filtering (JS) -> Justification: Provides a modern, app-like experience that is superior to a static document for user exploration. Report Info: Product Details -> Goal: Inform -> Viz/Method: Styled Cards -> Interaction: Hover Effects -> Justification: Enhances visual feedback and polish. All graphics are placeholders simulating photos. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
+    <title>Infografía de Velas Resorts: Lujo Redefinido</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FDFBF8;
+            background-color: #f0f4f8;
         }
-        .font-serif {
-            font-family: 'Playfair Display', serif;
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
         }
-        .active-filter {
-            background-color: #A67B5B !important;
-            color: #FFFFFF !important;
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow {
+            position: relative;
+            width: 2px;
+            background-color: #0074D9;
+            margin: 0.5rem auto;
+            height: 2rem;
+        }
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #0074D9;
         }
     </style>
 </head>
-<body class="text-gray-800 antialiased">
+<body class="text-gray-800">
 
-    <!-- Header Section -->
-    <header class="text-center py-16 px-4 bg-cover bg-center" style="background-color: #F5EFEA;">
-        <h1 class="font-serif text-5xl md:text-6xl font-bold text-[#3D352E] mb-4">Baby Concierge</h1>
-        <p class="text-lg md:text-xl text-[#6B5F55] max-w-3xl mx-auto">Viaja sin preocupaciones. Hemos preparado cada detalle con las mejores marcas para el confort y la felicidad de tus hijos.</p>
+    <!-- 
+    Color Palette: Brilliant Blues (#003B73, #0074D9, #7FDBFF, #BDE4F4, #FFFFFF)
+    Narrative Plan:
+    1. Hook: Headline with 5-Diamond prestige.
+    2. Destinations: Introduce the 4 locations with cards.
+    3. Guest Insights: Visualize destination popularity (Donut Chart) and satisfaction (Bar Chart).
+    4. Experience Breakdown: Detail the "All-Inclusive" value (Stacked Bar Chart).
+    5. Awards: Highlight the 200+ awards (Big Number) and 5-Diamond status (Icon).
+    6. Plan Your Trip: A CSS-based flowchart for user guidance.
+    7. CTA: Footer with link.
+
+    Visualization Choices:
+    - Destination Popularity -> Compare -> Donut Chart -> Chart.js (Canvas) - NO SVG.
+    - Guest Satisfaction -> Compare -> Bar Chart -> Chart.js (Canvas) - NO SVG.
+    - All-Inclusive Breakdown -> Compare Composition -> Stacked Bar Chart -> Chart.js (Canvas) - NO SVG.
+    - 200+ Awards -> Inform -> Big Number -> HTML/CSS - NO SVG.
+    - 5-Diamond Award -> Inform -> Pictograph -> HTML/CSS (Unicode) - NO SVG.
+    - Trip Planner -> Organize -> Flow Chart -> HTML/CSS (Flexbox/Borders) - NO SVG, NO MERMAID JS.
+
+    CONFIRMATION: NO SVG or Mermaid JS used. All diagrams are HTML/CSS. All charts are Chart.js on Canvas.
+    -->
+
+    <header class="bg-[#003B73] text-white text-center p-8 shadow-lg">
+        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Velas Resorts: El pináculo del lujo todo incluido</h1>
+        <p class="mt-4 text-lg text-[#BDE4F4]">Una experiencia galardonada con los 5 Diamantes de la AAA en los destinos más exclusivos de México.</p>
     </header>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        <!-- Filter Navigation -->
-        <nav class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12" id="filter-nav">
-            <button class="filter-btn active-filter px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="all">Todos</button>
-            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="descanso">Para el Descanso</button>
-            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="paseo">Para el Paseo</button>
-            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="comida">Para la Comida</button>
-            <button class="filter-btn px-4 py-2 text-sm md:text-base font-semibold text-[#A67B5B] bg-white rounded-full shadow-sm hover:bg-gray-100 transition-all duration-300" data-category="juego">Para Jugar</button>
-        </nav>
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-[#003B73]">Los Cabos</h3>
+                <p class="mt-2 text-gray-600">Sofisticación y desierto se encuentran con el Mar de Cortés.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-[#003B73]">Riviera Maya</h3>
+                <p class="mt-2 text-gray-600">Lujo inmerso entre la selva mística y el turquesa del Caribe.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-[#003B73]">Riviera Nayarit</h3>
+                <p class="mt-2 text-gray-600">Un paraíso tropical ideal para familias y parejas en el Pacífico.</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-[#003B73]">Puerto Vallarta</h3>
+                <p class="mt-2 text-gray-600">El encanto tradicional mexicano se fusiona con el lujo moderno.</p>
+            </div>
+        </div>
 
-        <!-- Product Grid -->
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-            
-            <!-- Card de producto: Cuna -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="descanso">
-                <img src="https://babysandkids.com.mx/cdn/shop/files/416ef160-f6b6-41bc-affe-782f35ce41f1.jpg?v=1718823200&width=1646" alt="Cuna de viaje Stokke" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Cuna de viaje Stokke Sleepi Mini</h3>
-                    <p class="text-[#6B5F55]">Un espacio de descanso seguro y elegante, con un diseño escandinavo y materiales de alta calidad.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Popularidad de Destinos</h2>
+                <p class="text-center text-gray-600 mb-6">Analizamos las reservas del último año para entender las preferencias de nuestros huéspedes. La Riviera Maya se destaca como el destino principal, atrayendo a quienes buscan una combinación de playas prístinas y cultura ancestral.</p>
+                <div class="chart-container h-[300px] md:h-[350px]">
+                    <canvas id="destinationPopularityChart"></canvas>
                 </div>
             </div>
 
-            <!-- Card de producto: Portabebés -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
-                <img src="https://ergobaby.es/media/catalog/product/b/a/baby_carrier_360_cam_carbon_grey__1_2.jpg?width=700&height=700&store=es_es&image-type=image" alt="Portabebés Ergobaby" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Portabebés Ergobaby Omni 360</h3>
-                    <p class="text-[#6B5F55]">Diseñado para la máxima comodidad y soporte ergonómico, tanto para los padres como para el bebé.</p>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Índice de Satisfacción del Huésped</h2>
+                 <p class="text-center text-gray-600 mb-6">La excelencia en el servicio es nuestra prioridad. Los Cabos lidera con una calificación casi perfecta, reflejando nuestro compromiso con experiencias personalizadas y un lujo sin concesiones en cada uno de nuestros resorts.</p>
+                <div class="chart-container h-[300px] md:h-[350px]">
+                    <canvas id="satisfactionChart"></canvas>
                 </div>
             </div>
 
-            <!-- Card de producto: Coche de paseo -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
-                <img src="https://m.media-amazon.com/images/I/71ktx7eJiWL._AC_SX679_.jpg" alt="Coche de paseo Bugaboo" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Coche de paseo Bugaboo Fox 5</h3>
-                    <p class="text-[#6B5F55]">Un cochecito versátil y de alta gama, ideal para cualquier tipo de terreno, desde la playa hasta el lobby del hotel.</p>
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Anatomía de una Estancia de Lujo</h2>
+                <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">La experiencia "Todo Incluido de Lujo" está diseñada para un disfrute integral. Este gráfico muestra cómo un huésped promedio distribuye su tiempo, destacando la gastronomía como un pilar central de la experiencia Velas Resorts.</p>
+                <div class="chart-container h-[300px] md:h-[400px] max-w-4xl">
+                    <canvas id="experienceBreakdownChart"></canvas>
                 </div>
             </div>
 
-            <!-- Card de producto: Pañalera -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="paseo">
-                <img src="https://placehold.co/600x400/BCA08A/3D352E?text=Pañalera+de+Lujo" alt="Pañalera Fendi" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Pañalera equipada de lujo</h3>
-                    <p class="text-[#6B5F55]">Preparada con pañales, toallitas y otros esenciales de tu marca preferida, para que no cargues nada extra.</p>
-                </div>
+            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
+                 <h2 class="text-3xl font-bold text-[#003B73] mb-4">Legado de Excelencia</h2>
+                <p class="text-gray-600 mb-6">Nuestro compromiso con la calidad ha sido reconocido mundialmente.</p>
+                <div class="text-8xl font-black text-[#0074D9]">200+</div>
+                <p class="text-xl font-bold text-gray-700 mt-2">Premios Internacionales</p>
             </div>
 
-            <!-- Card de producto: Silla alta -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
-                <img src="https://bebemoon.mx/cdn/shop/products/Disenosintitulo_14_1100x.png?v=1660254582" alt="Silla alta Stokke Tripp Trapp" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Silla alta Stokke Tripp Trapp</h3>
-                    <p class="text-[#6B5F55]">La silla que crece con tu hijo, con un diseño atemporal que combina seguridad y funcionalidad.</p>
+            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
+                <h2 class="text-3xl font-bold text-[#003B73] mb-4">Máxima Distinción</h2>
+                <p class="text-gray-600 mb-6">Orgullosos portadores de la calificación más alta de la AAA.</p>
+                <div class="text-7xl text-[#0074D9]">
+                    <span>◆</span><span>◆</span><span>◆</span><span>◆</span><span>◆</span>
                 </div>
-            </div>
-
-            <!-- Card de producto: Vajilla -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
-                <img src="https://placehold.co/600x400/A67B5B/FFFFFF?text=Vajilla+Tiffany" alt="Vajilla Tiny Tiffany & Co." class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Vajilla Tiny Tiffany & Co.</h3>
-                    <p class="text-[#6B5F55]">Para una experiencia gastronómica especial, con un set de platos y cubiertos de lujo.</p>
-                </div>
+                <p class="text-xl font-bold text-gray-700 mt-2">5 Diamantes AAA</p>
             </div>
             
-            <!-- Card de producto: Menú -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="comida">
-                <img src="https://placehold.co/600x400/9F704D/FFFFFF?text=Menú+Gourmet" alt="Menú gourmet infantil" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Menú gourmet infantil</h3>
-                    <p class="text-[#6B5F55]">Opciones deliciosas y nutritivas, preparadas con ingredientes orgánicos y de la más alta calidad.</p>
-                </div>
-            </div>
-
-            <!-- Card de producto: Juegos didácticos -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="juego">
-                <img src="https://m.media-amazon.com/images/I/71v+aVqTF6L.jpg" alt="Juegos didácticos Hape" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Juegos didácticos Hape</h3>
-                    <p class="text-[#6B5F55]">Juguetes de madera y sets de arte en la habitación para que los niños se diviertan y aprendan.</p>
-                </div>
-            </div>
-
-            <!-- Card de producto: Toalla -->
-            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105" data-category="juego">
-                <img src="https://http2.mlstatic.com/D_NQ_NP_831832-MCO84769263943_052025-O.webp" alt="Toalla de baño personalizada" class="w-full h-56 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-[#3D352E] mb-2">Toalla de baño personalizada</h3>
-                    <p class="text-[#6B5F55]">Una toalla de alta calidad con el personaje o superhéroe favorito de tu hijo para el baño o la playa.</p>
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Diseña tu Experiencia Perfecta</h2>
+                <p class="text-center text-gray-600 mb-8">Ya sea una celebración trascendental, un evento corporativo de alto nivel o unas vacaciones familiares inolvidables, tenemos el escenario perfecto. Sigue nuestra guía para encontrar tu escapada ideal.</p>
+                <div class="flex flex-col md:flex-row justify-around items-center text-center">
+                    <div class="flex flex-col items-center">
+                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
+                            <h4 class="font-bold text-[#003B73]">Bodas de Destino</h4>
+                            <p class="text-sm text-gray-700">Romance y escenarios espectaculares.</p>
+                        </div>
+                        <div class="flow-arrow hidden md:block md:rotate-90 md:h-8 md:my-0 md:mx-4"></div>
+                        <div class="flow-arrow md:hidden"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
+                            <h4 class="font-bold text-[#003B73]">Reuniones y Eventos</h4>
+                            <p class="text-sm text-gray-700">Espacios vanguardistas y servicio impecable.</p>
+                        </div>
+                         <div class="flow-arrow hidden md:block md:rotate-90 md:h-8 md:my-0 md:mx-4"></div>
+                         <div class="flow-arrow md:hidden"></div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
+                            <h4 class="font-bold text-[#003B73]">Vacaciones de Lujo</h4>
+                            <p class="text-sm text-gray-700">Recuerdos que durarán toda la vida.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-[#F5EFEA] mt-16">
-        <div class="container mx-auto px-8 py-8 text-center text-[#6B5F55]">
-            <p class="font-serif text-2xl text-[#3D352E] mb-2">Su tranquilidad es nuestro mayor lujo.</p>
-            <p>&copy; 2025 The Grand Lux Hotel & Baby Concierge Service. Todos los derechos reservados.</p>
-        </div>
+    <footer class="bg-[#003B73] text-white text-center p-6 mt-12">
+        <p>Vive la experiencia que redefine el lujo todo incluido.</p>
+        <a href="https://www.velasresorts.com/" target="_blank" class="mt-2 inline-block bg-[#0074D9] hover:bg-[#7FDBFF] text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+            Reserva tu Estancia
+        </a>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const productCards = document.querySelectorAll('.product-card');
+        const wrapLabel = (str, maxWidth) => {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        };
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    filterButtons.forEach(btn => btn.classList.remove('active-filter'));
-                    this.classList.add('active-filter');
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const sharedTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        };
 
-                    const category = this.getAttribute('data-category');
+        const destinationPopularityCtx = document.getElementById('destinationPopularityChart').getContext('2d');
+        new Chart(destinationPopularityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Riviera Maya', 'Los Cabos', 'Riviera Nayarit', 'Puerto Vallarta'],
+                datasets: [{
+                    label: 'Distribución de Reservas',
+                    data: [45, 25, 20, 10],
+                    backgroundColor: ['#003B73', '#0074D9', '#7FDBFF', '#BDE4F4'],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: sharedTooltipOptions.plugins.tooltip
+                }
+            }
+        });
 
-                    productCards.forEach(card => {
-                        if (category === 'all' || card.getAttribute('data-category') === category) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
+        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+        const satisfactionLabels = ['Los Cabos', 'Riviera Maya', 'Riviera Nayarit', 'Puerto Vallarta'];
+        new Chart(satisfactionCtx, {
+            type: 'bar',
+            data: {
+                labels: satisfactionLabels.map(label => wrapLabel(label, 16)),
+                datasets: [{
+                    label: 'Calificación Promedio (de 10)',
+                    data: [9.8, 9.6, 9.5, 9.3],
+                    backgroundColor: '#0074D9',
+                    borderColor: '#003B73',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 9,
+                        max: 10,
+                        grid: {
+                            color: '#e0e0e0'
                         }
-                    });
-                });
-            });
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: sharedTooltipOptions.plugins.tooltip
+                }
+            }
+        });
+
+        const experienceBreakdownCtx = document.getElementById('experienceBreakdownChart').getContext('2d');
+        const experienceLabels = ['Estancia Promedio de 5 Días'];
+        new Chart(experienceBreakdownCtx, {
+            type: 'bar',
+            data: {
+                labels: experienceLabels.map(label => wrapLabel(label, 16)),
+                datasets: [
+                    {
+                        label: 'Gastronomía',
+                        data: [40],
+                        backgroundColor: '#003B73',
+                    },
+                    {
+                        label: 'Actividades y Alberca',
+                        data: [30],
+                        backgroundColor: '#0074D9',
+                    },
+                    {
+                        label: 'Relajación y Spa',
+                        data: [20],
+                        backgroundColor: '#7FDBFF',
+                    },
+                    {
+                        label: 'Otros',
+                        data: [10],
+                        backgroundColor: '#BDE4F4',
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%'
+                            }
+                        }
+                    },
+                    y: {
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    label += context.parsed.x + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
         });
     </script>
-
 </body>
 </html>
