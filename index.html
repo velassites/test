@@ -3,354 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infografía de Velas Resorts: Lujo Redefinido</title>
+    <title>Plan de Implementación: Binnacle con iAuditor</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Aplicar la fuente Inter a todo el cuerpo del documento */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
         }
-        .chart-container {
+        /* Estilo para mejorar la apariencia de las tablas */
+        .table-container {
+            overflow-x: auto; /* Permite el desplazamiento horizontal en pantallas pequeñas */
+        }
+        
+        /* --- Estilos para la Línea de Tiempo --- */
+        /* Contenedor principal de la línea de tiempo */
+        .timeline-container {
             position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .flow-arrow {
-            position: relative;
-            width: 2px;
-            background-color: #0074D9;
-            margin: 0.5rem auto;
-            height: 2rem;
-        }
-        .flow-arrow::after {
+
+        /* La línea vertical central (visible en desktop) */
+        .timeline-container::after {
             content: '';
             position: absolute;
-            bottom: -1px;
+            width: 4px;
+            background-color: #e5e7eb; /* gray-200 */
+            top: 0;
+            bottom: 0;
             left: 50%;
-            transform: translateX(-50%);
-            width: 0;
+            margin-left: -2px;
+        }
+
+        /* Contenedor para cada evento en la línea de tiempo */
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        /* El círculo en la línea de tiempo */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid #3b82f6; /* Color por defecto (Fase 1) */
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        /* Color del círculo para la Fase 2 */
+        .timeline-item.phase-2::after {
+            border-color: #22c55e; /* green-500 */
+        }
+
+        /* Posicionamiento de los items */
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+
+        /* Flechas de los contenedores */
+        .left::before {
+            content: " ";
             height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-top: 8px solid #0074D9;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .right::after {
+            left: -12px;
+        }
+
+        /* Contenido del item */
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        /* --- Estilos Responsivos para Móviles --- */
+        @media screen and (max-width: 768px) {
+            .timeline-container::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::before {
+                left: 60px;
+                border: medium solid white;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent white transparent transparent;
+            }
+            .left::after, .right::after {
+                left: 19px;
+            }
+            .right {
+                left: 0%;
+            }
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-slate-50 text-slate-800">
 
-    <!-- 
-    Color Palette: Brilliant Blues (#003B73, #0074D9, #7FDBFF, #BDE4F4, #FFFFFF)
-    Narrative Plan:
-    1. Hook: Headline with 5-Diamond prestige.
-    2. Destinations: Introduce the 4 locations with cards.
-    3. Guest Insights: Visualize destination popularity (Donut Chart) and satisfaction (Bar Chart).
-    4. Experience Breakdown: Detail the "All-Inclusive" value (Stacked Bar Chart).
-    5. Awards: Highlight the 200+ awards (Big Number) and 5-Diamond status (Icon).
-    6. Plan Your Trip: A CSS-based flowchart for user guidance.
-    7. CTA: Footer with link.
+    <!-- Contenedor Principal -->
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl">
 
-    Visualization Choices:
-    - Destination Popularity -> Compare -> Donut Chart -> Chart.js (Canvas) - NO SVG.
-    - Guest Satisfaction -> Compare -> Bar Chart -> Chart.js (Canvas) - NO SVG.
-    - All-Inclusive Breakdown -> Compare Composition -> Stacked Bar Chart -> Chart.js (Canvas) - NO SVG.
-    - 200+ Awards -> Inform -> Big Number -> HTML/CSS - NO SVG.
-    - 5-Diamond Award -> Inform -> Pictograph -> HTML/CSS (Unicode) - NO SVG.
-    - Trip Planner -> Organize -> Flow Chart -> HTML/CSS (Flexbox/Borders) - NO SVG, NO MERMAID JS.
+        <!-- Encabezado -->
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Plan de Implementación</h1>
+            <p class="text-lg md:text-xl text-blue-600 mt-2 font-medium">Sistema de Auditoría "Binnacle con iAuditor"</p>
+        </header>
 
-    CONFIRMATION: NO SVG or Mermaid JS used. All diagrams are HTML/CSS. All charts are Chart.js on Canvas.
-    -->
-
-    <header class="bg-[#003B73] text-white text-center p-8 shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-black tracking-tight">Velas Resorts: El pináculo del lujo todo incluido</h1>
-        <p class="mt-4 text-lg text-[#BDE4F4]">Una experiencia galardonada con los 5 Diamantes de la AAA en los destinos más exclusivos de México.</p>
-    </header>
-
-    <main class="container mx-auto p-4 md:p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-bold text-[#003B73]">Los Cabos</h3>
-                <p class="mt-2 text-gray-600">Sofisticación y desierto se encuentran con el Mar de Cortés.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-bold text-[#003B73]">Riviera Maya</h3>
-                <p class="mt-2 text-gray-600">Lujo inmerso entre la selva mística y el turquesa del Caribe.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-bold text-[#003B73]">Riviera Nayarit</h3>
-                <p class="mt-2 text-gray-600">Un paraíso tropical ideal para familias y parejas en el Pacífico.</p>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 text-center transform hover:scale-105 transition-transform duration-300">
-                <h3 class="text-2xl font-bold text-[#003B73]">Puerto Vallarta</h3>
-                <p class="mt-2 text-gray-600">El encanto tradicional mexicano se fusiona con el lujo moderno.</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Popularidad de Destinos</h2>
-                <p class="text-center text-gray-600 mb-6">Analizamos las reservas del último año para entender las preferencias de nuestros huéspedes. La Riviera Maya se destaca como el destino principal, atrayendo a quienes buscan una combinación de playas prístinas y cultura ancestral.</p>
-                <div class="chart-container h-[300px] md:h-[350px]">
-                    <canvas id="destinationPopularityChart"></canvas>
+        <!-- Sección de Línea de Tiempo -->
+        <section class="mb-20">
+            <div class="flex items-center mb-10">
+                <div class="bg-indigo-500 text-white rounded-full h-12 w-12 flex items-center justify-center mr-4 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H7a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                    </svg>
                 </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Índice de Satisfacción del Huésped</h2>
-                 <p class="text-center text-gray-600 mb-6">La excelencia en el servicio es nuestra prioridad. Los Cabos lidera con una calificación casi perfecta, reflejando nuestro compromiso con experiencias personalizadas y un lujo sin concesiones en cada uno de nuestros resorts.</p>
-                <div class="chart-container h-[300px] md:h-[350px]">
-                    <canvas id="satisfactionChart"></canvas>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Línea de Tiempo del Proyecto</h2>
+                    <p class="text-slate-600">Visualización de las 7 semanas clave del proyecto.</p>
                 </div>
-            </div>
-
-            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Anatomía de una Estancia de Lujo</h2>
-                <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">La experiencia "Todo Incluido de Lujo" está diseñada para un disfrute integral. Este gráfico muestra cómo un huésped promedio distribuye su tiempo, destacando la gastronomía como un pilar central de la experiencia Velas Resorts.</p>
-                <div class="chart-container h-[300px] md:h-[400px] max-w-4xl">
-                    <canvas id="experienceBreakdownChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
-                 <h2 class="text-3xl font-bold text-[#003B73] mb-4">Legado de Excelencia</h2>
-                <p class="text-gray-600 mb-6">Nuestro compromiso con la calidad ha sido reconocido mundialmente.</p>
-                <div class="text-8xl font-black text-[#0074D9]">200+</div>
-                <p class="text-xl font-bold text-gray-700 mt-2">Premios Internacionales</p>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
-                <h2 class="text-3xl font-bold text-[#003B73] mb-4">Máxima Distinción</h2>
-                <p class="text-gray-600 mb-6">Orgullosos portadores de la calificación más alta de la AAA.</p>
-                <div class="text-7xl text-[#0074D9]">
-                    <span>◆</span><span>◆</span><span>◆</span><span>◆</span><span>◆</span>
-                </div>
-                <p class="text-xl font-bold text-gray-700 mt-2">5 Diamantes AAA</p>
             </div>
             
-            <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold text-center text-[#003B73] mb-4">Diseña tu Experiencia Perfecta</h2>
-                <p class="text-center text-gray-600 mb-8">Ya sea una celebración trascendental, un evento corporativo de alto nivel o unas vacaciones familiares inolvidables, tenemos el escenario perfecto. Sigue nuestra guía para encontrar tu escapada ideal.</p>
-                <div class="flex flex-col md:flex-row justify-around items-center text-center">
-                    <div class="flex flex-col items-center">
-                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
-                            <h4 class="font-bold text-[#003B73]">Bodas de Destino</h4>
-                            <p class="text-sm text-gray-700">Romance y escenarios espectaculares.</p>
-                        </div>
-                        <div class="flow-arrow hidden md:block md:rotate-90 md:h-8 md:my-0 md:mx-4"></div>
-                        <div class="flow-arrow md:hidden"></div>
+            <div class="timeline-container">
+                <div class="timeline-item left phase-1">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-blue-800">Semana 1: Kick-off</h3>
+                        <p class="text-sm text-slate-600">Inicio y Capacitación</p>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
-                            <h4 class="font-bold text-[#003B73]">Reuniones y Eventos</h4>
-                            <p class="text-sm text-gray-700">Espacios vanguardistas y servicio impecable.</p>
-                        </div>
-                         <div class="flow-arrow hidden md:block md:rotate-90 md:h-8 md:my-0 md:mx-4"></div>
-                         <div class="flow-arrow md:hidden"></div>
+                </div>
+                <div class="timeline-item right phase-1">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-blue-800">Semana 2: Pilotos</h3>
+                        <p class="text-sm text-slate-600">Creación de Checklists</p>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <div class="border-2 border-[#0074D9] bg-[#BDE4F4] rounded-lg p-4 w-48">
-                            <h4 class="font-bold text-[#003B73]">Vacaciones de Lujo</h4>
-                            <p class="text-sm text-gray-700">Recuerdos que durarán toda la vida.</p>
-                        </div>
+                </div>
+                <div class="timeline-item left phase-1">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-blue-800">Semana 3: Pruebas</h3>
+                        <p class="text-sm text-slate-600">Ejecución en entorno real</p>
+                    </div>
+                </div>
+                <div class="timeline-item right phase-1">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-blue-800">Semana 4: Análisis</h3>
+                        <p class="text-sm text-slate-600">Análisis y Decisión</p>
+                    </div>
+                </div>
+                <div class="timeline-item left phase-2">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-green-800">Semana 5: Diseño</h3>
+                        <p class="text-sm text-slate-600">Diseño final de Checklists</p>
+                    </div>
+                </div>
+                <div class="timeline-item right phase-2">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-green-800">Semana 6: UAT</h3>
+                        <p class="text-sm text-slate-600">Pruebas y Capacitación</p>
+                    </div>
+                </div>
+                <div class="timeline-item left phase-2">
+                    <div class="timeline-content">
+                        <h3 class="font-bold text-md text-green-800">Semana 7: Go-Live</h3>
+                        <p class="text-sm text-slate-600">Lanzamiento y Soporte</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-    </main>
+        <!-- Fase 1: Período de Prueba -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="bg-blue-500 text-white rounded-full h-12 w-12 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Fase 1: Período de Prueba (30 Días)</h2>
+                    <p class="text-slate-600">Evaluar la eficacia y funcionalidad del sistema para recopilar retroalimentación clave.</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden table-container">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-1/6">Semana</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-3/6">Actividades Clave</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-2/6">Responsables</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-slate-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-blue-600">Semana 1</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Kick-off y Capacitación:</b> Presentación del proyecto y formación intensiva en iAuditor.</li><li><b>Configuración de Cuentas:</b> Alta de usuarios y asignación de roles de prueba.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Líder del Proyecto, Soporte de iAuditor</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-blue-600">Semana 2</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Creación de Checklists Piloto:</b> Digitalizar 2-3 procesos de auditoría críticos.</li><li><b>Pruebas de Campo Iniciales:</b> Ejecución de auditorías en un entorno controlado.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Equipo de Auditores Piloto, Líder del Proyecto</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-blue-600">Semana 3</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Ejecución en Entorno Real:</b> Realizar auditorías programadas usando el sistema.</li><li><b>Recopilación de Feedback:</b> Sesión de retroalimentación para identificar mejoras.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Todos los Usuarios de Prueba</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-blue-600">Semana 4</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Análisis de Resultados:</b> Evaluar data, eficiencia y experiencia de usuario.</li><li><b>Decisión y Plan de Acción:</b> Presentar resultados a gerencia y decidir próximos pasos.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Líder del Proyecto, Gerencia</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    <footer class="bg-[#003B73] text-white text-center p-6 mt-12">
-        <p>Vive la experiencia que redefine el lujo todo incluido.</p>
-        <a href="https://www.velasresorts.com/" target="_blank" class="mt-2 inline-block bg-[#0074D9] hover:bg-[#7FDBFF] text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-            Reserva tu Estancia
-        </a>
-    </footer>
+        <!-- Fase 2: Implementación -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="bg-green-500 text-white rounded-full h-12 w-12 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Fase 2: Implementación y Despliegue (3 Semanas)</h2>
+                    <p class="text-slate-600">Configurar y personalizar el sistema para el despliegue a todo el equipo.</p>
+                </div>
+            </div>
 
-    <script>
-        const wrapLabel = (str, maxWidth) => {
-            if (str.length <= maxWidth) {
-                return str;
-            }
-            const words = str.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + word).length > maxWidth) {
-                    lines.push(currentLine.trim());
-                    currentLine = '';
-                }
-                currentLine += word + ' ';
-            }
-            lines.push(currentLine.trim());
-            return lines;
-        };
+            <div class="bg-white rounded-xl shadow-md overflow-hidden table-container">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-1/6">Semana</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-3/6">Actividades Clave</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-2/6">Responsables</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-slate-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-green-600">Semana 5</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Diseño Final de Checklists:</b> Definir estructura, lógica y flujos de trabajo finales.</li><li><b>Construcción en el Sistema:</b> Crear todas las plantillas de auditoría definitivas.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Líder del Proyecto, Equipo de Diseño</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-green-600">Semana 6</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Pruebas de Aceptación (UAT):</b> Validación de plantillas y flujos por el equipo piloto.</li><li><b>Capacitación General:</b> Formación para todos los usuarios finales y entrega de manuales.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Equipo Piloto, Líder del Proyecto, Capacitación</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap font-semibold text-green-600">Semana 7</td>
+                            <td class="px-6 py-4"><ul class="list-disc list-inside space-y-2 text-slate-700"><li><b>Lanzamiento Oficial (Go-Live):</b> Inicio de operaciones con el nuevo sistema.</li><li><b>Soporte y Monitoreo:</b> Establecer canal de soporte y monitorear el uso.</li></ul></td>
+                            <td class="px-6 py-4 text-slate-600">Todo el Equipo, Líder del Proyecto, Soporte TI</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            }
-            return label;
-        };
-        
-        const sharedTooltipOptions = {
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    }
-                }
-            }
-        };
+        <!-- Factores Críticos de Éxito -->
+        <section>
+            <div class="flex items-center mb-6">
+                 <div class="bg-yellow-500 text-white rounded-full h-12 w-12 flex items-center justify-center mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4m6 4v4m-2-2h4M12 3v18" /></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Factores Críticos de Éxito</h2>
+                    <p class="text-slate-600">Claves para asegurar una implementación exitosa.</p>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold text-lg mb-2 text-slate-800">Involucramiento de Usuarios</h3><p class="text-slate-600">La participación activa del equipo durante la prueba es fundamental para alinear el sistema con sus necesidades reales.</p></div>
+                <div class="bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold text-lg mb-2 text-slate-800">Calidad de los Checklists</h3><p class="text-slate-600">El éxito depende de qué tan bien diseñados, claros y completos sean los recorridos y checklists de auditoría.</p></div>
+                <div class="bg-white p-6 rounded-xl shadow-md"><h3 class="font-bold text-lg mb-2 text-slate-800">Soporte Gerencial</h3><p class="text-slate-600">El respaldo de la dirección es crucial para facilitar la adopción del nuevo sistema en toda la organización.</p></div>
+            </div>
+        </section>
 
-        const destinationPopularityCtx = document.getElementById('destinationPopularityChart').getContext('2d');
-        new Chart(destinationPopularityCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Riviera Maya', 'Los Cabos', 'Riviera Nayarit', 'Puerto Vallarta'],
-                datasets: [{
-                    label: 'Distribución de Reservas',
-                    data: [45, 25, 20, 10],
-                    backgroundColor: ['#003B73', '#0074D9', '#7FDBFF', '#BDE4F4'],
-                    borderColor: '#FFFFFF',
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    tooltip: sharedTooltipOptions.plugins.tooltip
-                }
-            }
-        });
+        <!-- Pie de página -->
+        <footer class="text-center mt-12 py-4 border-t border-slate-200">
+            <p class="text-sm text-slate-500">&copy; 2024 | Plan de Implementación de Proyecto. Todos los derechos reservados.</p>
+        </footer>
 
-        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
-        const satisfactionLabels = ['Los Cabos', 'Riviera Maya', 'Riviera Nayarit', 'Puerto Vallarta'];
-        new Chart(satisfactionCtx, {
-            type: 'bar',
-            data: {
-                labels: satisfactionLabels.map(label => wrapLabel(label, 16)),
-                datasets: [{
-                    label: 'Calificación Promedio (de 10)',
-                    data: [9.8, 9.6, 9.5, 9.3],
-                    backgroundColor: '#0074D9',
-                    borderColor: '#003B73',
-                    borderWidth: 1,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 9,
-                        max: 10,
-                        grid: {
-                            color: '#e0e0e0'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: sharedTooltipOptions.plugins.tooltip
-                }
-            }
-        });
+    </div>
 
-        const experienceBreakdownCtx = document.getElementById('experienceBreakdownChart').getContext('2d');
-        const experienceLabels = ['Estancia Promedio de 5 Días'];
-        new Chart(experienceBreakdownCtx, {
-            type: 'bar',
-            data: {
-                labels: experienceLabels.map(label => wrapLabel(label, 16)),
-                datasets: [
-                    {
-                        label: 'Gastronomía',
-                        data: [40],
-                        backgroundColor: '#003B73',
-                    },
-                    {
-                        label: 'Actividades y Alberca',
-                        data: [30],
-                        backgroundColor: '#0074D9',
-                    },
-                    {
-                        label: 'Relajación y Spa',
-                        data: [20],
-                        backgroundColor: '#7FDBFF',
-                    },
-                    {
-                        label: 'Otros',
-                        data: [10],
-                        backgroundColor: '#BDE4F4',
-                    }
-                ]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        stacked: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%'
-                            }
-                        }
-                    },
-                    y: {
-                        stacked: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                if (context.parsed.x !== null) {
-                                    label += context.parsed.x + '%';
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
