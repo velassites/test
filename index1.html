@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Proyectos TI - Velas Resorts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para la barra de scroll */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .modal-content {
+            max-height: 80vh;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Contenedor Principal -->
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Cabecera -->
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Dashboard de Proyectos TI</h1>
+            <p class="text-gray-600 mt-1">Seguimiento en tiempo real para Velas Resorts</p>
+        </header>
+
+        <!-- Resumen General -->
+        <div id="summary-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Las tarjetas de resumen se insertarán aquí dinámicamente -->
+        </div>
+
+        <!-- Contenedor de Proyectos -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Columna: En Curso -->
+            <div id="en-curso-col" class="bg-white p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-3"></div>
+                    <h2 class="text-xl font-semibold">En Curso</h2>
+                </div>
+                <div id="en-curso" class="space-y-4">
+                    <!-- Las tarjetas de proyectos se insertarán aquí -->
+                </div>
+            </div>
+
+            <!-- Columna: En Espera -->
+            <div id="en-espera-col" class="bg-white p-6 rounded-2xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full mr-3"></div>
+                    <h2 class="text-xl font-semibold">En Espera</h2>
+                </div>
+                <div id="en-espera" class="space-y-4">
+                    <!-- Las tarjetas de proyectos se insertarán aquí -->
+                </div>
+            </div>
+
+            <!-- Columna: Completados -->
+            <div id="completados-col" class="bg-white p-6 rounded-2xl shadow-sm">
+                 <div class="flex items-center mb-4">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-3"></div>
+                    <h2 class="text-xl font-semibold">Completados</h2>
+                </div>
+                <div id="completados" class="space-y-4">
+                    <!-- Las tarjetas de proyectos se insertarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Detalles del Proyecto -->
+    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 scale-95 opacity-0">
+            <div class="p-6 border-b border-gray-200 flex justify-between items-start">
+                <h3 id="modal-title" class="text-2xl font-bold">Detalles del Proyecto</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-content" class="p-6 overflow-y-auto modal-content">
+                <!-- El contenido detallado del proyecto se insertará aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE PROYECTOS ---
+        // Extraído del archivo "Seguimiento proyectos TI 2025 - Seguimiento.csv"
+        const projectsData = [
+            {
+                "nombre": "MODULO DE COSTEO Y RECETAS SISTEMA AVANCE RM, RN, VV, CV Y LOS CABOS",
+                "responsable": "Aristoteles/Adulfo/costos",
+                "proveedor": "avance",
+                "fechaInicio": "sep/2023",
+                "fechaFinPrevista": "sep/2024",
+                "fechaCierre": "15/dic/2025",
+                "progreso": 60,
+                "estado": "En curso",
+                "comentarios": "EN RM YA ESTA IMPLEMENTADO, RN SE DEJO CONFIGURADO Y COSTOS EMPIEZA CON LAS RECETAS",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "IMPLEMENTACION RED GPON Y WIFI RIVIERA NAYARIT",
+                "responsable": "Antonio Gonzalez",
+                "proveedor": "Total Play",
+                "fechaInicio": "01/06/2024",
+                "fechaFinPrevista": "31/enero/2025",
+                "fechaCierre": "31/enero/2025",
+                "progreso": 90,
+                "estado": "En curso",
+                "comentarios": "SPCONNET ESTA REALIZANDO ANALISIS Y REVISION DE LA IMPLEMNTACION, PARA HACER ADECUACIONES DE MEJORA",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "IMPLEMENTACION RED GPON Y WIFI VELAS VALLARTA Y CASA VELAS",
+                "responsable": "Salvador Ramos",
+                "proveedor": "Total Play",
+                "fechaInicio": "01/06/2024",
+                "fechaFinPrevista": "30/junio/2025",
+                "fechaCierre": "30/junio/2025",
+                "progreso": 70,
+                "estado": "En curso",
+                "comentarios": "SPCONNET ESTA REALIZANDO ANALISIS Y REVISION DE LA IMPLEMNTACION, PARA HACER ADECUACIONES DE MEJORA",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "ACTUALIZACION DE SISTEMAS OPERATIVOS WINDOWS Y SQL SERVERS",
+                "responsable": "Salvador Ramos",
+                "proveedor": "",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/marzo/2025",
+                "fechaCierre": "30/marzo/2025",
+                "progreso": 70,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON PROVEEDORES PARA LA ACTUALIZACION DE VERSIONES",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "DISASTER RECOVERY PLAN ( PMS- PBX- RH-FIREWALL )",
+                "responsable": "Salvador Ramos/Delfino",
+                "proveedor": "",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/dic/2025",
+                "fechaCierre": "30/dic/2025",
+                "progreso": 60,
+                "estado": "En curso",
+                "comentarios": "SE ESTA REVISANDO CON PROVEEDORES",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "HUMAND TODOS LAS PROPIEDADES",
+                "responsable": "Francisco",
+                "proveedor": "Humand",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/dic/2025",
+                "fechaCierre": "30/dic/2025",
+                "progreso": 70,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR PARA LA IMPLEMENTACION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "REMODELACION HABITACIONES CUERPO 3 Y 5 NIVELES 9-5 NAYARIT",
+                "responsable": "Antonio Gonzalez",
+                "proveedor": "",
+                "fechaInicio": "01/08/2024",
+                "fechaFinPrevista": "30/nov/2025",
+                "fechaCierre": "30/nov/2025",
+                "progreso": 40,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR PARA LA IMPLEMENTACION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "ALICE EN TODAS LA PROPIEDADES",
+                "responsable": "Francisco",
+                "proveedor": "ALICE",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/julio/2025",
+                "fechaCierre": "30/julio/2025",
+                "progreso": 60,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR PARA LA IMPLEMENTACION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "RENOVACION WIFI 6 GVLC",
+                "responsable": "Delfino",
+                "proveedor": "SPCONNECT",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/oct/2025",
+                "fechaCierre": "30/oct/2025",
+                "progreso": 30,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR PARA LA IMPLEMENTACION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "FRACTAL (SISTEMA DE GESTION MANTENIMIENTO)",
+                "responsable": "Francisco",
+                "proveedor": "FRACTAL",
+                "fechaInicio": "01/01/2024",
+                "fechaFinPrevista": "30/dic/2025",
+                "fechaCierre": "30/dic/2025",
+                "progreso": 30,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR PARA LA IMPLEMENTACION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "POS MOVIL GVLC",
+                "responsable": "Delfino",
+                "proveedor": "INNSIST",
+                "fechaInicio": "",
+                "fechaFinPrevista": "ene/2025",
+                "fechaCierre": "",
+                "progreso": 90,
+                "estado": "En espera",
+                "comentarios": "SE ESTA EN ESPERA DE LA LIBERACION DE LA VERSION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "FACTURACION INSSIST LOS CABOS, BOUTIQUE Y MDC",
+                "responsable": "Delfino",
+                "proveedor": "INNSIST",
+                "fechaInicio": "",
+                "fechaFinPrevista": "oct/2024",
+                "fechaCierre": "",
+                "progreso": 10,
+                "estado": "En espera",
+                "comentarios": "SE ESTA EN ESPERA DE LA LIBERACION DE LA VERSION",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "Renovación de Data Center",
+                "responsable": "",
+                "proveedor": "",
+                "fechaInicio": "",
+                "fechaFinPrevista": "",
+                "fechaCierre": "",
+                "progreso": 10,
+                "estado": "En espera",
+                "comentarios": "",
+                "proximasAcciones": ""
+            },
+            {
+                "nombre": "INTERCOMUNICADORES DE ELEVADORES, RENOVACION DE INFRASTRUCTURA RM",
+                "responsable": "Antonio Gonzalez",
+                "proveedor": "TOTAL PLAY",
+                "fechaInicio": "01/06/2024",
+                "fechaFinPrevista": "05/07/2025",
+                "fechaCierre": "05/07/2025",
+                "progreso": 100,
+                "estado": "Completado",
+                "comentarios": "SE TERMINO LA IMPLEMENTACION DE EQUIPOS, SW Y APS EN TODO EL HOTEL, SE LEVENTARON MAPAS DE CALOR Y EN LA SEMANA SE REALIZARAN TUNING DEACUERDO A NECESIDADES",
+                "proximasAcciones": ""
+            },
+             {
+                "nombre": "SISTEMA AUDITORIA CABOS BINNACLE",
+                "responsable": "Delfino",
+                "proveedor": "",
+                "fechaInicio": "",
+                "fechaFinPrevista": "",
+                "fechaCierre": "",
+                "progreso": 20,
+                "estado": "En curso",
+                "comentarios": "SE ESTA TRABAJANDO CON EL PROVEEDOR",
+                "proximasAcciones": ""
+            }
+        ];
+
+        // --- LÓGICA DEL DASHBOARD ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectsByStatus = {
+                'En curso': [],
+                'En espera': [],
+                'Completado': []
+            };
+
+            // Clasificar proyectos
+            projectsData.forEach((project, index) => {
+                project.id = index; // Añadir un ID único
+                if (projectsByStatus[project.estado]) {
+                    projectsByStatus[project.estado].push(project);
+                }
+            });
+
+            // Renderizar tarjetas de resumen
+            renderSummaryCards(projectsByStatus);
+
+            // Renderizar proyectos en sus columnas
+            renderProjects(projectsByStatus['En curso'], 'en-curso');
+            renderProjects(projectsByStatus['En espera'], 'en-espera');
+            renderProjects(projectsByStatus['Completado'], 'completados');
+            
+            // Renombrar 'Completado' a 'Completados' para que coincida con el ID del contenedor
+            if(projectsByStatus['Completado']){
+                 renderProjects(projectsByStatus['Completado'], 'completados');
+            }
+
+
+            // Lógica del Modal
+            const modal = document.getElementById('project-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalOverlay = document.getElementById('project-modal');
+
+            closeModalBtn.addEventListener('click', () => closeModal(modal));
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal(modal);
+                }
+            });
+        });
+
+        function renderSummaryCards(projectsByStatus) {
+            const container = document.getElementById('summary-cards');
+            const totalProjects = projectsData.length;
+            const enCurso = projectsByStatus['En curso'].length;
+            const enEspera = projectsByStatus['En espera'].length;
+            const completados = projectsByStatus['Completado'] ? projectsByStatus['Completado'].length : 0;
+
+            const summaries = [
+                { title: 'Proyectos Totales', count: totalProjects, color: 'indigo' },
+                { title: 'En Curso', count: enCurso, color: 'blue' },
+                { title: 'En Espera', count: enEspera, color: 'yellow' },
+                { title: 'Completados', count: completados, color: 'green' }
+            ];
+
+            container.innerHTML = summaries.map(s => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-${s.color}-500">
+                    <h3 class="text-gray-500 text-sm font-medium">${s.title}</h3>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">${s.count}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderProjects(projectList, containerId) {
+            const container = document.getElementById(containerId);
+            if (!projectList || projectList.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 p-4 bg-gray-50 rounded-lg">No hay proyectos en este estado.</div>`;
+                return;
+            }
+
+            container.innerHTML = projectList.map(project => `
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow-md hover:border-blue-500 transition-all duration-200" onclick="openModal(${project.id})">
+                    <h4 class="font-semibold text-gray-800">${project.nombre}</h4>
+                    <p class="text-sm text-gray-500 mt-1 mb-3">Responsable: ${project.responsable || 'No asignado'}</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-${getProgressBarColor(project.progreso)} h-2.5 rounded-full" style="width: ${project.progreso}%"></div>
+                    </div>
+                    <p class="text-right text-sm font-medium text-gray-600 mt-1">${project.progreso}%</p>
+                </div>
+            `).join('');
+        }
+
+        function getProgressBarColor(progress) {
+            if (progress < 40) return 'yellow-400';
+            if (progress < 80) return 'blue-500';
+            return 'green-500';
+        }
+
+        function openModal(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+
+            const modal = document.getElementById('project-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalTitle = document.getElementById('modal-title');
+
+            modalTitle.textContent = project.nombre;
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    ${detailItem('Estado', `<span class="px-3 py-1 text-sm font-medium rounded-full bg-${getStatusColor(project.estado)}-100 text-${getStatusColor(project.estado)}-800">${project.estado}</span>`)}
+                    ${detailItem('Progreso', `<div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-${getProgressBarColor(project.progreso)} h-4 rounded-full text-center text-white text-xs flex items-center justify-center" style="width: ${project.progreso}%">${project.progreso}%</div></div>`)}
+                    ${detailItem('Responsable', project.responsable)}
+                    ${detailItem('Proveedor', project.proveedor)}
+                    ${detailItem('Fecha de Inicio', project.fechaInicio)}
+                    ${detailItem('Fecha de Finalización Prevista', project.fechaFinPrevista)}
+                    ${detailItem('Fecha de Cierre', project.fechaCierre)}
+                    <div class="pt-2">
+                        <h5 class="font-semibold text-gray-700 mb-1">Notas y Comentarios</h5>
+                        <p class="text-gray-600 bg-gray-50 p-3 rounded-lg">${project.comentarios || 'No hay comentarios.'}</p>
+                    </div>
+                     <div class="pt-2">
+                        <h5 class="font-semibold text-gray-700 mb-1">Próximas Acciones</h5>
+                        <p class="text-gray-600 bg-gray-50 p-3 rounded-lg">${project.proximasAcciones || 'No hay acciones definidas.'}</p>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div > div').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        }
+        
+        function detailItem(label, value) {
+            return `
+                <div>
+                    <h5 class="font-semibold text-gray-700">${label}</h5>
+                    <div class="text-gray-600 mt-1">${value || 'N/A'}</div>
+                </div>
+            `;
+        }
+
+        function getStatusColor(status) {
+            switch (status) {
+                case 'En curso': return 'blue';
+                case 'En espera': return 'yellow';
+                case 'Completado': return 'green';
+                default: return 'gray';
+            }
+        }
+
+        function closeModal(modal) {
+            modal.querySelector('div > div').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+    </script>
+</body>
+</html>
