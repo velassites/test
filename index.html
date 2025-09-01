@@ -50,7 +50,7 @@
             <!-- Contenedor para mostrar el PDF o mensajes -->
             <div id="documentViewer" class="bg-gray-50 rounded-lg border border-gray-200 min-h-[60vh] flex items-center justify-center transition-all duration-300">
                 <div id="placeholder" class="text-center text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none" viewBox="0-0 24 24" stroke="currentColor" stroke-width="1">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <p class="mt-2">El documento aparecerá aquí.</p>
@@ -100,7 +100,8 @@
 
                     if (data.status === 'success' && data.fileId) {
                         const fileId = data.fileId;
-                        const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                        // CAMBIO: Se usa "/embed" en lugar de "/preview" para ocultar el encabezado y el botón de ventana emergente.
+                        const embedUrl = `https://drive.google.com/file/d/${fileId}/embed`;
 
                         const iframe = document.createElement('iframe');
                         iframe.src = embedUrl;
@@ -154,7 +155,5 @@
     </script>
 
 </body>
-</html>
-
 </html>
 
